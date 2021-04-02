@@ -1,9 +1,9 @@
 # Guided Exercise 3
 
-TXX.GYY.GE3
+T08.G80.GE3
 
 Authors:
 
-<author 1>, <email author 1>, user name in github
+Diego Robles Lozano, 100429029@akumnos.uc3m.es, 100429029
 
-<author 2>, <email author 2>, user name in github
+Gonzalo Llosá Cea, 100429091@alumnos.uc3m.es, Gllosa
