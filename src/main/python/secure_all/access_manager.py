@@ -1,7 +1,9 @@
 """Module """
 
+
 class AccessManager:
     """Class for providing the methods for managing the access to a building"""
+
     def __init__(self):
         pass
 

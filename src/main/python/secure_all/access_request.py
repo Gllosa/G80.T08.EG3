@@ -3,9 +3,11 @@ import hashlib
 import json
 from datetime import datetime
 
+
 class AccessRequest:
     """Class representing the access request"""
-    def __init__( self, id_document, full_name, access_type, email_address, validity ):
+
+    def __init__(self, id_document, full_name, access_type, email_address, validity):
         self.__id_document = id_document
         self.__full_name = full_name
         self.__visitor_type = access_type
@@ -18,18 +20,20 @@ class AccessRequest:
         return "AccessRequest:" + json.dumps(self.__dict__)
 
     @property
-    def full_name( self ):
+    def full_name(self):
         """Property representing the name and the surname of
         the person who request access to the building"""
         return self.__full_name
+
     @full_name.setter
-    def full_name( self, value ):
+    def full_name(self, value):
         self.__full_name = value
 
     @property
     def visitor_type(self):
         """Property representing the type of visitor: Resident or Guest"""
         return self.__visitor_type
+
     @visitor_type.setter
     def visitor_type(self, value):
         self.__visitor_type = value
@@ -38,16 +42,18 @@ class AccessRequest:
     def email_address(self):
         """Property representing the requester's email address"""
         return self.__email_address
+
     @email_address.setter
     def email_address(self, value):
         self.__email_address = value
 
     @property
-    def id_document( self ):
+    def id_document(self):
         """Property representing the requester's DNI"""
         return self.__id_document
+
     @id_document.setter
-    def id_document( self, value ):
+    def id_document(self, value):
         self.__id_document = value
 
     @property
@@ -59,3 +65,8 @@ class AccessRequest:
     def access_code(self):
         """Returns the md5 signature"""
         return hashlib.md5(self.__str__().encode()).hexdigest()
+
+
+ar = AccessRequest("41694463V", "JOSE LOPEZ", "GUEST", "jlopez@inf.uc3m.es", 5)
+print(ar.access_code)
+print(ar.time_stamp)
