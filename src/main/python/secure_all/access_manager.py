@@ -17,7 +17,10 @@ class AccessManager:
             return False
         numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         for char in str_number_dni:
-            if int(char) not in numbers:
+            try:
+                if int(char) not in numbers:
+                    return False
+            except ValueError:
                 return False
         letters = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B",
                    "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"]
@@ -38,7 +41,6 @@ class AccessManager:
             return True
         raise AccessManagementException("Access type no válido")
 
-    # TODO: Arreglar método, no reconoce el email "jllopez@inf.uc3m.es" como valido
     @staticmethod
     def check_email(email):
         try:
@@ -61,6 +63,8 @@ class AccessManager:
 
     @staticmethod
     def check_validity(val, acc_type):
+        if not isinstance(val, int):
+            raise AccessManagementException("Número de días no válido")
         if (acc_type == "Guest" and 15 >= val >= 2) or (acc_type == "Resident" and val == 0):
             return True
         raise AccessManagementException("Número de días no válido")

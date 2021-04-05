@@ -13,8 +13,8 @@ class AccessRequest:
         self.__visitor_type = access_type
         self.__email_address = email_address
         self.__validity = validity
-        justnow = datetime.utcnow()
-        self.__time_stamp = datetime.timestamp(justnow)
+        # justnow = datetime.utcnow()
+        # self.__time_stamp = datetime.timestamp(justnow)
 
     def __str__(self):
         return "AccessRequest:" + json.dumps(self.__dict__)
@@ -65,4 +65,3 @@ class AccessRequest:
     def access_code(self):
         """Returns the md5 signature"""
         return hashlib.md5(self.__str__().encode()).hexdigest()
-

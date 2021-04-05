@@ -43,7 +43,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_access_type_resident(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 5)
+        datosPersona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 0)
         req = AccessRequest(*datosPersona)
         codigo_esperado = req.access_code
         codigo = AccessManager().request_access_code(*datosPersona)
@@ -112,7 +112,37 @@ class MyTestCase(unittest.TestCase):
         codigo = AccessManager().request_access_code(*datosPersona)
         self.assertEqual(codigo, codigo_esperado)
 
+    def test_request_access_code_validity_ok_boottom_limit(self):
+        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 2)
+        req = AccessRequest(*datosPersona)
+        codigo_esperado = req.access_code
+        codigo = AccessManager().request_access_code(*datosPersona)
+        self.assertEqual(codigo, codigo_esperado)
 
+    def test_request_access_code_validity_ok_extra_limit(self):
+        datosPersona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 0)
+        req = AccessRequest(*datosPersona)
+        codigo_esperado = req.access_code
+        codigo = AccessManager().request_access_code(*datosPersona)
+        self.assertEqual(codigo, codigo_esperado)
+
+    def test_request_access_code_validity_number_out_of_range(self):
+        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 21)
+        with self.assertRaises(AccessManagementException) as res:
+            AccessManager().request_access_code(*datosPersona)
+        self.assertEqual(res.exception.message, "Número de días no válido")
+
+    def test_request_access_code_validity_not_a_number(self):
+        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", "SIEMPRE")
+        with self.assertRaises(AccessManagementException) as res:
+            AccessManager().request_access_code(*datosPersona)
+        self.assertEqual(res.exception.message, "Número de días no válido")
+
+    def test_request_access_code_validity_resident_days_not_0(self):
+        datosPersona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 13)
+        with self.assertRaises(AccessManagementException) as res:
+            AccessManager().request_access_code(*datosPersona)
+        self.assertEqual(res.exception.message, "Número de días no válido")
 
 
 if __name__ == '__main__':
