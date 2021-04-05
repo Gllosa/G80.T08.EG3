@@ -38,6 +38,7 @@ class AccessManager:
             return True
         raise AccessManagementException("Access type no válido")
 
+    # TODO: Arreglar método, no reconoce el email "jllopez@inf.uc3m.es" como valido
     @staticmethod
     def check_email(email):
         try:
@@ -46,7 +47,16 @@ class AccessManager:
             raise AccessManagementException("Email no válido")
         if len(dominio) > 0 and len(nombre) > 0:
             if "." in dominio:
-                return True
+                try:
+                    texto = dominio.split(".")
+                except ValueError:
+                    raise AccessManagementException("Email no válido")
+                nada = False
+                for i in texto:
+                    if len(i) == 0:
+                        nada = True
+                if not nada:
+                    return True
         raise AccessManagementException("Email no válido")
 
     @staticmethod
