@@ -1,4 +1,7 @@
 """Module """
+import json
+import pathlib
+
 from secure_all import AccessRequest, AccessManagementException
 
 
@@ -29,6 +32,7 @@ class AccessManager:
 
     @staticmethod
     def check_name(name):
+        """Comprobar el formato correcto del nombre"""
         if len(name) > 0:
             for letra in name:
                 if letra == " ":
@@ -37,22 +41,24 @@ class AccessManager:
 
     @staticmethod
     def check_access_type(access_type):
-        if access_type == "Guest" or access_type == "Resident":
+        """Comprobar el formato correcto del tipo de acceso"""
+        if access_type in ("Guest", "Resident"):
             return True
         raise AccessManagementException("Access type no válido")
 
     @staticmethod
     def check_email(email):
+        """Comprobar el formato correcto del email"""
         try:
             nombre, dominio = email.split("@")
         except ValueError:
-            raise AccessManagementException("Email no válido")
+            raise AccessManagementException("Email no válido") from None
         if len(dominio) > 0 and len(nombre) > 0:
             if "." in dominio:
                 try:
                     texto = dominio.split(".")
                 except ValueError:
-                    raise AccessManagementException("Email no válido")
+                    raise AccessManagementException("Email no válido") from None
                 nada = False
                 for i in texto:
                     if len(i) == 0:
@@ -63,18 +69,43 @@ class AccessManager:
 
     @staticmethod
     def check_validity(val, acc_type):
+        """Comprobar el formato correcto del numero de días de validez"""
         if not isinstance(val, int):
             raise AccessManagementException("Número de días no válido")
         if (acc_type == "Guest" and 15 >= val >= 2) or (acc_type == "Resident" and val == 0):
             return True
         raise AccessManagementException("Número de días no válido")
 
-    def request_access_code(self, id_document, full_name, access_type, email_address, validity):
-        self.check_name(full_name)
-        self.check_access_type(access_type)
-        self.check_email(email_address)
-        self.check_validity(validity, access_type)
-        if self.validate_dni(id_document):
-            req = AccessRequest(id_document, full_name, access_type, email_address, validity)
+    def request_access_code(self, datos_persona):
+        """Método para obtener un código de acceso"""
+        self.check_name(datos_persona[1])
+        self.check_access_type(datos_persona[2])
+        self.check_email(datos_persona[3])
+        self.check_validity(datos_persona[4], datos_persona[2])
+        if not self.validate_dni(datos_persona[0]):
+            raise AccessManagementException("DNI no válido")
+        req = AccessRequest(datos_persona)
+        if not self.request_in_json(req):
+            self.save_request(req)
             return req.access_code
-        raise AccessManagementException("DNI no válido")
+        raise AccessManagementException("Solicitud ya realizada")
+
+    @staticmethod
+    def save_request(solicitud):
+        """Guardar una solicitud en el almacen"""
+        path = pathlib.Path(__file__).parent.parent.parent.parent
+        path = path.joinpath("almacen/solicitudes.json")
+        with open(path, "a+") as solicitudes:
+            cadena = json.dumps(solicitud.__dict__)
+            solicitudes.write(cadena)
+            solicitudes.write("\n")
+
+    @staticmethod
+    def request_in_json(solicitud):
+        """Comprobar si una peticion ya esta en el almacen"""
+        path = pathlib.Path(__file__).parent.parent.parent.parent
+        path = path.joinpath("almacen/solicitudes.json")
+        with open(path) as solicitudes:
+            for sol in solicitudes:
+                datos = json.loads(sol)
+                return datos == solicitud.__dict__

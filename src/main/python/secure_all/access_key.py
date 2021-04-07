@@ -2,13 +2,14 @@
 from datetime import datetime
 import hashlib
 
-class AccessKey():
+
+class AccessKey:
     """Class representing the key for accessing the building"""
 
     def __init__(self, dni, access_code, notification_emails, validity):
         self.__alg = "SHA-256"
         self.__type = "DS"
-        self.__id_document = dni
+        self.__id_document_visitor = dni
         self.__access_code = access_code
         self.__notification_emails = notification_emails
         justnow = datetime.utcnow()
@@ -16,27 +17,30 @@ class AccessKey():
         if validity == 0:
             self.__expiration_date = 0
         else:
-            #timestamp is represneted in seconds.microseconds
-            #validity must be expressed in senconds to be added to the timestap
-            self.__expiration_date = self.__issued_at + (validity * 24 * 60 *60)
+            # timestamp is represneted in seconds.microseconds
+            # validity must be expressed in senconds to be added to the timestap
+            self.__expiration_date = self.__issued_at + (validity * 24 * 60 * 60)
 
     def __signature_string(self):
         """Composes the string to be used for generating the key"""
-        return "{alg:"+self.__alg+",typ:"+self.__type+",accesscode:"+self.__access_code+",issuedate:"+self.__issued_at+",expirationdate:"+self.__expiration_date+"}"
+        return "{alg:" + self.__alg + ",typ:" + self.__type + ",accesscode:" + self.__access_code +\
+               ",issuedate:" + self.__issued_at + ",expirationdate:" + self.__expiration_date + "}"
 
     @property
-    def id_document( self ):
+    def id_document(self):
         """Property that represents the dni of the visitor"""
-        return self.__id_document
+        return self.__id_document_visitor
 
     @id_document.setter
-    def id_document( self, value ):
-        self.__id_document = value
+    def id_document(self, value):
+        """Setter de id_document para el AccessKey"""
+        self.__id_document_visitor = value
 
     @property
     def access_code(self):
         """Property that represents the access_code of the visitor"""
         return self.__access_code
+
     @access_code.setter
     def access_code(self, value):
         self.__access_code = value
@@ -47,7 +51,7 @@ class AccessKey():
         return self.__notification_emails
 
     @notification_emails.setter
-    def notification_emails(self, value ):
+    def notification_emails(self, value):
         self.__notification_emails = value
 
     @property
@@ -61,5 +65,5 @@ class AccessKey():
         return self.__issued_at
 
     @issued_at.setter
-    def issued_at( self, value ):
+    def issued_at(self, value):
         self.__issued_at = value

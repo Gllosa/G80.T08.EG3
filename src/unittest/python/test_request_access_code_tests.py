@@ -1,147 +1,157 @@
+"""Test para probar request_access_code"""
 import unittest
 from secure_all import AccessManager, AccessRequest, AccessManagementException
 
 
 class MyTestCase(unittest.TestCase):
+    """ Clase para probar request_access_code"""
     def test_request_access_code_dni_valido(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
-        req = AccessRequest(*datosPersona)
+        """DNI correcto"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_dni_solo_numeros(self):
-        datosPersona = ("41694463", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        """DNI sin letra"""
+        datos_persona = ("41694463", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "DNI no válido")
 
     def test_request_access_code_dni_letra_incorrecta(self):
-        datosPersona = ("41694463D", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        """DNI con una letra que no sigue el algortimo"""
+        datos_persona = ("41694463D", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "DNI no válido")
 
     def test_request_acccess_code_dni_solo_letras(self):
-        datosPersona = ("FEUYYDWYV", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        """DNI con solo letras"""
+        datos_persona = ("FEUYYDWYV", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "DNI no válido")
 
     def test_rquest_access_code_dni_letra_minuscula(self):
-        datosPersona = ("41694463v", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
-        req = AccessRequest(*datosPersona)
+        """DNI sigue siendo válido aunque la letra sea minuscula"""
+        datos_persona = ("41694463v", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_access_type_guest(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
-        req = AccessRequest(*datosPersona)
+        """AccessType es Guest"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_access_type_resident(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 0)
-        req = AccessRequest(*datosPersona)
+        """AccessType es Resident"""
+        datos_persona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 0)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_access_type_invalid(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Owner", "jllopez@inf.uc3m.es", 5)
+        """AccessType distitno de Guest o Resident"""
+        datos_persona = ("41694463V", "Jose Lopez", "Owner", "jllopez@inf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Access type no válido")
 
     def test_request_access_code_name_ok(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
-        req = AccessRequest(*datosPersona)
+        """Nombre formato correcto"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_name_empty_string(self):
-        datosPersona = ("41694463V", "", "Owner", "jllopez@inf.uc3m.es", 5)
+        """Nombre con un string vacio"""
+        datos_persona = ("41694463V", "", "Owner", "jllopez@inf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Nombre no válido")
 
-    def test_request_access_code_no_blank_space(self):
-        datosPersona = ("41694463V", "JoseLopez", "Owner", "jllopez@inf.uc3m.es", 5)
+    def test_request_access_code_name_no_blank_space(self):
+        """Nombre sin un espacio, es decir, no hay apellido"""
+        datos_persona = ("41694463V", "JoseLopez", "Owner", "jllopez@inf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Nombre no válido")
 
     def test_request_access_code_email_ok(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
-        req = AccessRequest(*datosPersona)
+        """Email correcto"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_email_no_at(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopezinf.uc3m.es", 5)
+        """Email sin la @"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopezinf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Email no válido")
 
     def test_request_access_code_email_no_domain(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@infuc3mes", 5)
+        """Email sin el dominio (.es, .com, etc)"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@infuc3mes", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Email no válido")
 
     def test_request_access_code_email_no_text_between_at_and_domain(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@.es", 5)
+        """Sin texto entre la @ y el dominio"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Email no válido")
 
     def test_request_access_code_email_no_text_before_at(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "@inf.uc3m.es", 5)
+        """Sin texto antes de la @"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "@inf.uc3m.es", 5)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Email no válido")
 
     def test_request_access_code_validity_ok_top_limit(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 15)
-        req = AccessRequest(*datosPersona)
+        """Limite superior validity"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 15)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_validity_ok_boottom_limit(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 2)
-        req = AccessRequest(*datosPersona)
+        """Limite inferior del validity"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 2)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_validity_ok_extra_limit(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 0)
-        req = AccessRequest(*datosPersona)
+        """Límite extra del validity cuando el AccessType es Resident"""
+        datos_persona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 0)
+        req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
-        codigo = AccessManager().request_access_code(*datosPersona)
+        codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
     def test_request_access_code_validity_number_out_of_range(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 21)
+        """Validity fuera del rango"""
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 21)
         with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
-        self.assertEqual(res.exception.message, "Número de días no válido")
-
-    def test_request_access_code_validity_not_a_number(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", "SIEMPRE")
-        with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
-        self.assertEqual(res.exception.message, "Número de días no válido")
-
-    def test_request_access_code_validity_resident_days_not_0(self):
-        datosPersona = ("41694463V", "Jose Lopez", "Resident", "jllopez@inf.uc3m.es", 13)
-        with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(*datosPersona)
+            AccessManager().request_access_code(datos_persona)
         self.assertEqual(res.exception.message, "Número de días no válido")
 
 

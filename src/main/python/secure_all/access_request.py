@@ -7,14 +7,14 @@ from datetime import datetime
 class AccessRequest:
     """Class representing the access request"""
 
-    def __init__(self, id_document, full_name, access_type, email_address, validity):
-        self.__id_document = id_document
-        self.__full_name = full_name
-        self.__visitor_type = access_type
-        self.__email_address = email_address
-        self.__validity = validity
-        # justnow = datetime.utcnow()
-        # self.__time_stamp = datetime.timestamp(justnow)
+    def __init__(self, datosPersona):
+        self.__id_document = datosPersona[0]
+        self.__full_name = datosPersona[1]
+        self.__visitor_type = datosPersona[2]
+        self.__email_address = datosPersona[3]
+        self.__validity = datosPersona[4]
+        justnow = datetime.utcnow()
+        self.__time_stamp = datetime.timestamp(justnow)
 
     def __str__(self):
         return "AccessRequest:" + json.dumps(self.__dict__)
@@ -54,6 +54,7 @@ class AccessRequest:
 
     @id_document.setter
     def id_document(self, value):
+        """Setter de id_document para el AccessRequest"""
         self.__id_document = value
 
     @property
