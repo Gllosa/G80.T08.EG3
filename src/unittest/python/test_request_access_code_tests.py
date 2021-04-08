@@ -5,6 +5,7 @@ from secure_all import AccessManager, AccessRequest, AccessManagementException
 
 class MyTestCase(unittest.TestCase):
     """ Clase para probar request_access_code"""
+
     def test_request_access_code_dni_valido(self):
         """DNI correcto"""
         datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
@@ -131,7 +132,7 @@ class MyTestCase(unittest.TestCase):
         codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
 
-    def test_request_access_code_validity_ok_boottom_limit(self):
+    def test_request_access_code_validity_ok_bottom_limit(self):
         """Limite inferior del validity"""
         datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 2)
         req = AccessRequest(datos_persona)
@@ -146,13 +147,6 @@ class MyTestCase(unittest.TestCase):
         codigo_esperado = req.access_code
         codigo = AccessManager().request_access_code(datos_persona)
         self.assertEqual(codigo, codigo_esperado)
-
-    def test_request_access_code_validity_number_out_of_range(self):
-        """Validity fuera del rango"""
-        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 21)
-        with self.assertRaises(AccessManagementException) as res:
-            AccessManager().request_access_code(datos_persona)
-        self.assertEqual(res.exception.message, "Número de días no válido")
 
 
 if __name__ == '__main__':
