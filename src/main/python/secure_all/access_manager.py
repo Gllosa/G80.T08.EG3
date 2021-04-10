@@ -1,6 +1,7 @@
 """Module """
 import json
 import pathlib
+import os
 
 from secure_all import AccessRequest, AccessManagementException
 
@@ -109,3 +110,20 @@ class AccessManager:
             for sol in solicitudes:
                 datos = json.loads(sol)
                 return datos == solicitud.__dict__
+
+    @staticmethod
+    def get_access_key(input_file):
+        pass
+
+    def open_door(self, key):
+        path = pathlib.Path(__file__).parent.parent.parent.parent
+        path = path.joinpath("jsons_e2")
+        archivos = [path.joinpath(file) for file in os.listdir(path)]
+        for archivo in archivos:
+            try:
+                llave = self.get_access_key(archivo)
+                if llave == key:
+                    return True
+            except AccessManagementException:
+                continue
+        return False
