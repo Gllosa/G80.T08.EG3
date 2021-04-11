@@ -141,7 +141,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n37.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccesCode\"")
+        self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccessCode\"")
 
     def test_sintaxis_str_nombre1_dup(self):
         """Nodo 25 duplicado"""
@@ -149,7 +149,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n38.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccesCode\"")
+        self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccessCode\"")
 
     def test_sintaxis_str_valor1_elim(self):
         """Nodo 29 eliminado"""
@@ -157,7 +157,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n39.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR --")
+        self.assertEqual(res.exception.message, "ERROR, la solicitud no esta en la base de datos")
 
     def test_sintaxis_str_valor1_dup(self):
         """Nodo 29 duplicado"""
@@ -165,7 +165,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n40.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR --")
+        self.assertEqual(res.exception.message, "ERROR, la solicitud no esta en la base de datos")
 
 
 if __name__ == '__main__':

@@ -110,7 +110,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n53.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR, email no válido")
+        self.assertEqual(res.exception.message, "Email no válido")
 
     def test_sintaxis_str_email_dup(self):
         """Nodo 62 duplicado"""
@@ -118,7 +118,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n54.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR, email no válido")
+        self.assertEqual(res.exception.message, "Email no válido")
 
     def test_sintaxis_comilla_typo(self):
         """Nodo 45 modificado"""
@@ -134,7 +134,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n56.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccesCode\"")
+        self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccessCode\"")
 
     def test_sintaxis_str_valor1_typo(self):
         """Nodo 49 modificado"""
@@ -142,7 +142,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n57.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR --")
+        self.assertEqual(res.exception.message, "ERROR, la solicitud no esta en la base de datos")
 
     def test_sintaxis_str_nombre2_typo(self):
         """Nodo 52 modificado"""
@@ -150,7 +150,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n58.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR, typo en DNI")
+        self.assertEqual(res.exception.message, "ERROR, typo en clave \"DNI\"")
 
     def test_sintaxis_str_valor2_typo(self):
         """Nodo 55 modificado"""
@@ -158,7 +158,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n59.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR, typo en clave \"NotificationEmail\"")
+        self.assertEqual(res.exception.message, "ERROR, typo en DNI")
 
     def test_sintaxis_str_nombre3_typo(self):
         """Nodo 58 modificado"""
@@ -166,7 +166,7 @@ class MyTestCase(unittest.TestCase):
         path = path.joinpath("src/jsons_e2/sintaxis_n60.json")
         with self.assertRaises(AccessManagementException) as res:
             AccessManager().get_access_key(path)
-        self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+        self.assertEqual(res.exception.message, "ERROR, typo en clave \"NotificationMail\"")
 
 
 if __name__ == '__main__':

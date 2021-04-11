@@ -1,11 +1,13 @@
 """Module """
+
 import json
 import pathlib
 import os
+import secure_all
+
 
 from secure_all import AccessRequest, AccessManagementException
 from datetime import datetime
-import secure_all.access_key
 
 class AccessManager:
     """Class for providing the methods for managing the access to a building"""
@@ -126,7 +128,7 @@ class AccessManager:
                 if len(llaves) < 3:
                     raise AccessManagementException("ERROR, menos de tres parametros")
                 if llaves[0] != "AccessCode":
-                    raise AccessManagementException("ERROR, typo en clave \"AccesCode\"")
+                    raise AccessManagementException("ERROR, typo en clave \"AccessCode\"")
                 if llaves[1] != "DNI":
                     raise AccessManagementException("ERROR, typo en clave \"DNI\"")
                 if llaves[2] != "NotificationMail":
@@ -158,13 +160,24 @@ class AccessManager:
             with open(path) as solicitudes:
                 for sol in solicitudes:
                     datos_en_base = json.loads(sol)
-                    my_request = AccessRequest(datos_en_base)
-                    if datos["NotificationMail"] == datos_en_base["_AccessRequest__email_address"]:
-                        if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
-                            if datos["AccesCode"] == my_request.access_code:
-                                return datos_en_base
-                            raise AccessManagementException("ERROR, AccesCode incorrecto")
-                    raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
+                    lista = []
+                    for index in datos_en_base:
+                        lista.append(datos_en_base[index])
+                    my_request = AccessRequest(lista)
+                    if isinstance(datos_en_base["_AccessRequest__email_address"], list):
+                        if len(datos["NotificationMail"]) == len(datos_en_base["_AccessRequest__email_address"]):
+                            if datos["NotificationMail"] == datos_en_base["_AccessRequest__email_address"]:
+                                if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
+                                    if datos["AccessCode"] == my_request.access_code:
+                                        return datos_en_base
+                                    raise AccessManagementException("ERROR, AccesCode incorrecto")
+                    elif datos["NotificationMail"][0] == datos_en_base["_AccessRequest__email_address"]:
+                        if len(datos["NotificationMail"]) == 1:
+                            if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
+                                if datos["AccessCode"] == my_request.access_code:
+                                    return datos_en_base
+                                raise AccessManagementException("ERROR, AccesCode incorrecto")
+                raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
 
     def get_access_key(self, input_file):
         """segun la peticion de acceso devuelve
@@ -172,7 +185,7 @@ class AccessManager:
         datos_en_base = self.get_solicitud_from_acces_code(input_file)
         with open(input_file) as solicitud:
             datos = json.load(solicitud)
-            my_key = AccessKey(datos["DNI"], datos["AccesCode"], datos["NotificationMail"],
+            my_key = secure_all.AccessKey(datos["DNI"], datos["AccessCode"], datos["NotificationMail"],
                               datos_en_base["_AccessRequest__validity"])
             path = pathlib.Path(__file__).parent.parent.parent.parent
             path = path.joinpath("almacen/claves.json")
