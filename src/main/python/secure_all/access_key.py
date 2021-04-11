@@ -23,8 +23,10 @@ class AccessKey:
 
     def __signature_string(self):
         """Composes the string to be used for generating the key"""
-        return "{alg:" + self.__alg + ",typ:" + self.__type + ",accesscode:" + str(self.__access_code) +\
-               ",issuedate:" + str(self.__issued_at) + ",expirationdate:" + str(self.__expiration_date) + "}"
+        return "{alg:" + self.__alg + ",typ:" + self.__type +\
+               ",accesscode:" + str(self.__access_code) +\
+               ",issuedate:" + str(self.__issued_at) +\
+               ",expirationdate:" + str(self.__expiration_date) + "}"
 
     @property
     def id_document(self):
