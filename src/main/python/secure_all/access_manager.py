@@ -5,7 +5,7 @@ import os
 
 from secure_all import AccessRequest, AccessManagementException
 from datetime import datetime
-
+import secure_all.access_key
 
 class AccessManager:
     """Class for providing the methods for managing the access to a building"""
@@ -121,16 +121,16 @@ class AccessManager:
 
                 for key in datos:
                     llaves.append(key)
-                if llaves[0] != "AccesCode":
+                if len(llaves) > 3:
+                    raise AccessManagementException("ERROR, demasiados parametros")
+                if len(llaves) < 3:
+                    raise AccessManagementException("ERROR, menos de tres parametros")
+                if llaves[0] != "AccessCode":
                     raise AccessManagementException("ERROR, typo en clave \"AccesCode\"")
                 if llaves[1] != "DNI":
                     raise AccessManagementException("ERROR, typo en clave \"DNI\"")
                 if llaves[2] != "NotificationMail":
                     raise AccessManagementException("ERROR, typo en clave \"NotificationMail\"")
-                if len(llaves) > 3:
-                    raise AccessManagementException("ERROR, demasiados parametros")
-                if len(llaves) < 3:
-                    raise AccessManagementException("ERROR, menos de tres parametros")
                 if not self.validate_dni(datos["DNI"]):
                     raise AccessManagementException("ERROR, typo en DNI")
                 emails = datos["NotificationMail"]
@@ -145,8 +145,11 @@ class AccessManager:
         except ValueError:
             raise AccessManagementException("ERROR DE SINTAXIS EN ARCHIVO")
 
-    def get_access_key(self, input_file):
-        """segun la peticion de acceso devuelve una clave hash 256"""
+
+    def get_solicitud_from_acces_code(self, input_file):
+        """return los datos en la base de datos de solicitudes
+         correspondientes a la clave de acceso
+         si existen y si el codigo de acceso es correcto"""
         self.check_json_request(input_file)
         with open(input_file) as solicitud:
             datos = json.load(solicitud)
@@ -154,7 +157,32 @@ class AccessManager:
             path = path.joinpath("almacen/solicitudes.json")
             with open(path) as solicitudes:
                 for sol in solicitudes:
-                    datosEnBDD = json.loads(sol)
+                    datos_en_base = json.loads(sol)
+                    my_request = AccessRequest(datos_en_base)
+                    if datos["NotificationMail"] == datos_en_base["_AccessRequest__email_address"]:
+                        if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
+                            if datos["AccesCode"] == my_request.access_code:
+                                return datos_en_base
+                            raise AccessManagementException("ERROR, AccesCode incorrecto")
+                    raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
+
+    def get_access_key(self, input_file):
+        """segun la peticion de acceso devuelve
+        una clave hash 256 y guarda en claves los parametros de la clave"""
+        datos_en_base = self.get_solicitud_from_acces_code(input_file)
+        with open(input_file) as solicitud:
+            datos = json.load(solicitud)
+            my_key = AccessKey(datos["DNI"], datos["AccesCode"], datos["NotificationMail"],
+                              datos_en_base["_AccessRequest__validity"])
+            path = pathlib.Path(__file__).parent.parent.parent.parent
+            path = path.joinpath("almacen/claves.json")
+            with open(path, "a+") as claves:
+                cadena = json.dumps(claves.__dict__)
+                claves.write(cadena)
+                claves.write("\n")
+            return my_key.key
+
+
 
 
 
