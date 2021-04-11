@@ -4,6 +4,7 @@ import pathlib
 import os
 
 from secure_all import AccessRequest, AccessManagementException
+from datetime import datetime
 
 
 class AccessManager:
@@ -123,6 +124,12 @@ class AccessManager:
             try:
                 llave = self.get_access_key(archivo)
                 if llave == key:
+                    # Registrar la marca de tiempo y la clave
+                    path = pathlib.Path(__file__).parent.parent.parent.parent
+                    path = path.joinpath("almacen/llavesValidas.json")
+                    time_stamp = datetime.timestamp(datetime.utcnow())
+                    data = {"key": key, "time_stamp": time_stamp}
+                    json.dump(data, path)
                     return True
             except AccessManagementException:
                 continue
