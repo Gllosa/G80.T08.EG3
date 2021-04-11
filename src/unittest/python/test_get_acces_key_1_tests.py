@@ -13,7 +13,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, demasiados emails")
 
     def test_sintaxis_all_repeated(self):
         """Nodo 1 duplicado"""
@@ -49,7 +49,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, demasiados parametros")
 
     def test_sintaxis_all_datos_repetidos(self):
         """Nodo 3 duplicado"""

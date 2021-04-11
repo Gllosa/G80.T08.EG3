@@ -158,7 +158,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccesCode\"")
 
     def test_sintaxis_str_nombre1_dup(self):
         """Nodo 25 duplicado"""
@@ -167,7 +167,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccesCode\"")
 
     def test_sintaxis_str_valor1_elim(self):
         """Nodo 29 eliminado"""
@@ -176,7 +176,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR --")
 
     def test_sintaxis_str_valor1_dup(self):
         """Nodo 29 duplicado"""
@@ -185,7 +185,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR --")
 
 
 if __name__ == '__main__':

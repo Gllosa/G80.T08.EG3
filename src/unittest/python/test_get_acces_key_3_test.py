@@ -15,7 +15,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"DNI\"")
 
     def test_sintaxis_str_nombre2_dup(self):
         """Nodo 32 duplicado"""
@@ -24,7 +24,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"DNI\"")
 
     def test_sintaxis_str_valor2_elim(self):
         """Nodo 36 eliminado"""
@@ -33,7 +33,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en DNI")
 
     def test_sintaxis_str_valor2_sup(self):
         """Nodo 36 duplicado"""
@@ -42,7 +42,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en DNI")
 
     def test_sintaxis_str_nombre3_elim(self):
         """Nodo 39 eliminado"""
@@ -51,7 +51,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"NotificationMail\"")
 
     def test_sintaxis_str_nombre3_dup(self):
         """Nodo 39 duplicado"""
@@ -60,7 +60,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"NotificationMail\"")
 
     def test_sintaxis_corchete_abierto_elim(self):
         """Nodo 42 eliminado"""
@@ -87,7 +87,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, cero emails")
 
     def test_sintaxis_emails_coma_elim(self):
         """Nodo 43 duplicado"""
@@ -123,7 +123,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, email no válido")
 
     def test_sintaxis_str_email_dup(self):
         """Nodo 62 duplicado"""
@@ -132,7 +132,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, email no válido")
 
     def test_sintaxis_comilla_typo(self):
         """Nodo 45 modificado"""
@@ -150,7 +150,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"AccesCode\"")
 
     def test_sintaxis_str_valor1_typo(self):
         """Nodo 49 modificado"""
@@ -159,7 +159,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR --")
 
     def test_sintaxis_str_nombre2_typo(self):
         """Nodo 52 modificado"""
@@ -168,7 +168,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en DNI")
 
     def test_sintaxis_str_valor2_typo(self):
         """Nodo 55 modificado"""
@@ -177,7 +177,7 @@ class MyTestCase(unittest.TestCase):
         with open(path) as solicitud:
             with self.assertRaises(AccessManagementException) as res:
                 AccessManager().get_access_key(solicitud)
-            self.assertEqual(res.exception.message, "ERROR DE SINTAXIS EN ARCHIVO")
+            self.assertEqual(res.exception.message, "ERROR, typo en clave \"NotificationEmail\"")
 
     def test_sintaxis_str_nombre3_typo(self):
         """Nodo 58 modificado"""

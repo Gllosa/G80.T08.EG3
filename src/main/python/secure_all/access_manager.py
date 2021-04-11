@@ -111,9 +111,53 @@ class AccessManager:
                 datos = json.loads(sol)
                 return datos == solicitud.__dict__
 
-    @staticmethod
-    def get_access_key(input_file):
-        pass
+    def check_json_request(self, input_file):
+        """Comprueba que no haya errores en la solicitud json"""
+        try:
+            with open(input_file) as solicitud:
+                datos = json.load(solicitud)
+                llaves = []
+
+                for key in datos:
+                    llaves.append(key)
+                if llaves[0] != "AccesCode":
+                    raise AccessManagementException("ERROR, typo en clave \"AccesCode\"")
+                if llaves[1] != "DNI":
+                    raise AccessManagementException("ERROR, typo en clave \"DNI\"")
+                if llaves[2] != "NotificationMail":
+                    raise AccessManagementException("ERROR, typo en clave \"NotificationMail\"")
+                if len(llaves) > 3:
+                    raise AccessManagementException("ERROR, demasiados parametros")
+                if len(llaves) < 3:
+                    raise AccessManagementException("ERROR, menos de tres parametros")
+                if not self.validate_dni(datos["DNI"]):
+                    raise AccessManagementException("ERROR, typo en DNI")
+                emails = datos["NotificationMail"]
+                if not isinstance(emails, list):
+                    raise AccessManagementException("ERROR DE SINTAXIS EN ARCHIVO")
+                if len(emails) > 5:
+                    raise AccessManagementException("ERROR, demasiados emails")
+                if len(emails) == 0:
+                    raise AccessManagementException("ERROR, cero emails")
+                for email in emails:
+                    self.check_email(email)
+        except ValueError:
+            raise AccessManagementException("ERROR DE SINTAXIS EN ARCHIVO")
+
+    def get_access_key(self, input_file):
+        """segun la peticion de acceso devuelve una clave hash 256"""
+        self.check_json_request(input_file)
+        with open(input_file) as solicitud:
+            datos = json.load(solicitud)
+            path = pathlib.Path(__file__).parent.parent.parent.parent
+            path = path.joinpath("almacen/solicitudes.json")
+            with open(path) as solicitudes:
+                for sol in solicitudes:
+                    datosEnBDD = json.loads(sol)
+
+
+
+
 
     def open_door(self, key):
         path = pathlib.Path(__file__).parent.parent.parent.parent
