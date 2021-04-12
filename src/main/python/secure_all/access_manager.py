@@ -5,9 +5,9 @@ import pathlib
 import os
 import secure_all
 
-
 from secure_all import AccessRequest, AccessManagementException
 from datetime import datetime
+
 
 class AccessManager:
     """Class for providing the methods for managing the access to a building"""
@@ -147,7 +147,6 @@ class AccessManager:
         except ValueError:
             raise AccessManagementException("ERROR DE SINTAXIS EN ARCHIVO")
 
-
     def get_solicitud_from_acces_code(self, input_file):
         """return los datos en la base de datos de solicitudes
          correspondientes a la clave de acceso
@@ -186,7 +185,7 @@ class AccessManager:
         with open(input_file) as solicitud:
             datos = json.load(solicitud)
             my_key = secure_all.AccessKey(datos["DNI"], datos["AccessCode"], datos["NotificationMail"],
-                              datos_en_base["_AccessRequest__validity"])
+                                          datos_en_base["_AccessRequest__validity"])
             path = pathlib.Path(__file__).parent.parent.parent.parent
             path = path.joinpath("almacen/claves.json")
             with open(path, "a+") as claves:
@@ -194,12 +193,6 @@ class AccessManager:
                 claves.write(cadena)
                 claves.write("\n")
             return my_key.key
-
-
-
-
-
-
 
     def open_door(self, key):
         path = pathlib.Path(__file__).parent.parent.parent.parent
