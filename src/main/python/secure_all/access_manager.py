@@ -109,10 +109,13 @@ class AccessManager:
         """Comprobar si una peticion ya esta en el almacen"""
         path = pathlib.Path(__file__).parent.parent.parent.parent
         path = path.joinpath("almacen/solicitudes.json")
-        with open(path) as solicitudes:
-            for sol in solicitudes:
-                datos = json.loads(sol)
-                return datos == solicitud.__dict__
+        try:
+            with open(path) as solicitudes:
+                for sol in solicitudes:
+                    datos = json.loads(sol)
+                    return datos == solicitud.__dict__
+        except FileNotFoundError:
+            return False
 
     def check_json_request(self, input_file):
         """Comprueba que no haya errores en la solicitud json"""
@@ -189,26 +192,34 @@ class AccessManager:
             path = pathlib.Path(__file__).parent.parent.parent.parent
             path = path.joinpath("almacen/claves.json")
             with open(path, "a+") as claves:
-                cadena = json.dumps(my_key.__dict__)
+                diccionario_llave = my_key.__dict__
+                diccionario_llave["_AccessKey__key"] = my_key.key
+                cadena = json.dumps(diccionario_llave)
                 claves.write(cadena)
                 claves.write("\n")
             return my_key.key
 
-    def open_door(self, key):
-        path = pathlib.Path(__file__).parent.parent.parent.parent
-        path = path.joinpath("jsons_e2")
-        archivos = [path.joinpath(file) for file in os.listdir(path)]
-        for archivo in archivos:
-            try:
-                llave = self.get_access_key(archivo)
-                if llave == key:
+    @staticmethod
+    def open_door(key):
+        if not isinstance(key, str) or len(key) != 64:
+            raise AccessManagementException("Clave no encontrada o expirada")
+
+        path_origen = pathlib.Path(__file__).parent.parent.parent.parent
+        path_claves = path_origen.joinpath("almacen/claves.json")
+
+        with open(path_claves) as claves:
+            for clave in claves:
+                diccionario_clave = json.loads(clave)
+                time_stamp = datetime.timestamp(datetime.utcnow())
+                if diccionario_clave["_AccessKey__key"] == key \
+                        and (diccionario_clave["_AccessKey__expiration_date"] > time_stamp
+                             or diccionario_clave["_AccessKey__expiration_date"] == 0):
                     # Registrar la marca de tiempo y la clave
-                    path = pathlib.Path(__file__).parent.parent.parent.parent
-                    path = path.joinpath("almacen/llavesValidas.json")
-                    time_stamp = datetime.timestamp(datetime.utcnow())
                     data = {"key": key, "time_stamp": time_stamp}
-                    json.dump(data, path)
+                    with open(path_origen.joinpath("almacen/llavesValidas.json"), "a+") as llaves_validas:
+                        cadena = json.dumps(data)
+                        llaves_validas.write(cadena)
+                        llaves_validas.write("\n")
                     return True
-            except AccessManagementException:
-                continue
-        return False
+
+            raise AccessManagementException("Clave no encontrada o expirada")

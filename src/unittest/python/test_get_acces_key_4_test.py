@@ -4,7 +4,6 @@ import pathlib
 from secure_all import AccessManager, AccessManagementException, AccessKey
 
 
-
 class MyTestCase(unittest.TestCase):
     """Clase para probar get_acces_key"""
 
@@ -32,7 +31,6 @@ class MyTestCase(unittest.TestCase):
             AccessManager().get_access_key(path)
         self.assertEqual(res.exception.message, "Email no válido")
 
-
     def test_valido_1(self):
         """Todo correcto con un email,
             en access_request timestamp = 0
@@ -44,5 +42,7 @@ class MyTestCase(unittest.TestCase):
         codigo_esperado = AccessKey("41694463V", codigo_de_acceso, "jllopez@inf.uc3m.es", 5).key
         codigo = AccessManager().get_access_key(path)
         self.assertEqual(codigo_esperado, codigo)
+
+
 if __name__ == '__main__':
     unittest.main()

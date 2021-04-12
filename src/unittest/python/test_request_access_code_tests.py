@@ -8,7 +8,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_request_access_code_dni_valido(self):
         """DNI correcto"""
-        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 7)
         req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
         codigo = AccessManager().request_access_code(datos_persona)
@@ -45,7 +45,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_request_access_code_access_type_guest(self):
         """AccessType es Guest"""
-        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 6)
         req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
         codigo = AccessManager().request_access_code(datos_persona)
@@ -68,7 +68,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_request_access_code_name_ok(self):
         """Nombre formato correcto"""
-        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 10)
         req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
         codigo = AccessManager().request_access_code(datos_persona)
@@ -90,7 +90,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_request_access_code_email_ok(self):
         """Email correcto"""
-        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)
+        datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 8)
         req = AccessRequest(datos_persona)
         codigo_esperado = req.access_code
         codigo = AccessManager().request_access_code(datos_persona)
