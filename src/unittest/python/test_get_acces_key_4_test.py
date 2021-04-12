@@ -36,7 +36,7 @@ class MyTestCase(unittest.TestCase):
     def test_valido_1(self):
         """Todo correcto con un email,
             en access_request timestamp = 0
-            y en acces_key issued_at_0"""
+            y en acces_key issued_at = 0"""
         path = pathlib.Path(__file__).parent.parent.parent.parent
         path = path.joinpath("src/jsons_e2/valido_n1.json")
         datos_persona = ("41694463V", "Jose Lopez", "Guest", "jllopez@inf.uc3m.es", 5)

@@ -190,7 +190,7 @@ class AccessManager:
             path = pathlib.Path(__file__).parent.parent.parent.parent
             path = path.joinpath("almacen/claves.json")
             with open(path, "a+") as claves:
-                cadena = json.dumps(claves.__dict__)
+                cadena = json.dumps(my_key.__dict__)
                 claves.write(cadena)
                 claves.write("\n")
             return my_key.key
