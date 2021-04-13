@@ -153,25 +153,30 @@ class AccessManager:
          correspondientes a la clave de acceso
          si existen y si el codigo de acceso es correcto"""
         self.check_json_request(input_file)
-        with open(input_file) as solicitud:
-            datos = json.load(solicitud)
-            path = pathlib.Path(__file__).parent.parent.parent.parent
-            path = path.joinpath("almacen/solicitudes.json")
-            with open(path) as solicitudes:
-                for sol in solicitudes:
-                    datos_en_base = json.loads(sol)
-                    lista = []
-                    for index in datos_en_base:
-                        lista.append(datos_en_base[index])
-                    my_request = AccessRequest(lista)
-                    if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
-                        print(datos["AccessCode"], "  =?  ", my_request.access_code)
-                        if datos["AccessCode"] == my_request.access_code:
-                            for ecorreo in datos["NotificationMail"]:
-                                if ecorreo == datos_en_base["_AccessRequest__email_address"]:
-                                    return datos_en_base
-                        raise AccessManagementException("ERROR, AccesCode incorrecto")
-                raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
+        try:
+            with open(input_file) as solicitud:
+                datos = json.load(solicitud)
+                path = pathlib.Path(__file__).parent.parent.parent.parent
+                path = path.joinpath("almacen/solicitudes.json")
+                with open(path) as solicitudes:
+                    for sol in solicitudes:
+                        datos_en_base = json.loads(sol)
+                        lista = []
+                        for index in datos_en_base:
+                            lista.append(datos_en_base[index])
+                        my_request = AccessRequest(lista)
+                        if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
+                            print(datos["AccessCode"], "  =?  ", my_request.access_code)
+                            if datos["AccessCode"] == my_request.access_code:
+                                for ecorreo in datos["NotificationMail"]:
+                                    if ecorreo == datos_en_base["_AccessRequest__email_address"]:
+                                        return datos_en_base
+                            raise AccessManagementException("ERROR, AccesCode incorrecto")
+        except FileNotFoundError:
+            raise AccessManagementException("ERROR, la solicitud no esta en la base de datos") \
+                from None
+        raise AccessManagementException("ERROR, la solicitud no esta en la base de datos") \
+            from None
 
     def get_access_key(self, input_file):
         """segun la peticion de acceso devuelve
@@ -179,7 +184,8 @@ class AccessManager:
         datos_en_base = self.get_solicitud_from_acces_code(input_file)
         with open(input_file) as solicitud:
             datos = json.load(solicitud)
-            my_key = secure_all.AccessKey(datos["DNI"], datos["AccessCode"], datos["NotificationMail"],
+            my_key = secure_all.AccessKey(datos["DNI"], datos["AccessCode"],
+                                          datos["NotificationMail"],
                                           datos_en_base["_AccessRequest__validity"])
             path = pathlib.Path(__file__).parent.parent.parent.parent
             path = path.joinpath("almacen/claves.json")
@@ -210,7 +216,8 @@ class AccessManager:
                              or diccionario_clave["_AccessKey__expiration_date"] == 0):
                     # Registrar la marca de tiempo y la clave
                     data = {"key": key, "time_stamp": time_stamp}
-                    with open(path_origen.joinpath("almacen/llavesValidas.json"), "a+") as llaves_validas:
+                    with open(path_origen.joinpath("almacen/llavesValidas.json"), "a+") \
+                            as llaves_validas:
                         cadena = json.dumps(data)
                         llaves_validas.write(cadena)
                         llaves_validas.write("\n")

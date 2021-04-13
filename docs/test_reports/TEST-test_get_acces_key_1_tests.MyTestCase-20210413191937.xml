@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_get_acces_key_1_tests.MyTestCase-20210413191937" tests="20" file="test_get_acces_key_1_tests.py" time="0.018" timestamp="2021-04-13T19:19:38" failures="0" errors="0" skipped="0">
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_6_emails" time="0.002" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_all_datos_repetidos" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_all_repeated" time="0.002" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_dato1_repetido" time="0.000" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_dato2_duplicado" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_dato3_duplicado" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_doble_coma" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_doble_llave_inicial" time="0.000" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_json_vacio" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_llave_final_duplicada" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_llave_final_typo" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_llave_inicial_typo" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_no_coma" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_no_dato1" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_no_dato2" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_no_dato3" time="0.000" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_no_datos" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_no_llave_final" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_no_llave_inicial" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_get_acces_key_1_tests.MyTestCase" name="test_sintaxis_nombre_dato1_dup" time="0.001" timestamp="2021-04-13T19:19:38"/>
+</testsuite>

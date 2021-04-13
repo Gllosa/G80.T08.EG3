@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_request_access_code_tests.MyTestCase-20210413191937" tests="18" file="test_request_access_code_tests.py" time="0.050" timestamp="2021-04-13T19:19:38" failures="0" errors="0" skipped="0">
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_acccess_code_dni_solo_letras" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_access_type_guest" time="0.006" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_access_type_invalid" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_access_type_resident" time="0.006" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_dni_letra_incorrecta" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_dni_solo_numeros" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_dni_valido" time="0.006" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_email_no_at" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_email_no_domain" time="0.000" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_email_no_text_before_at" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_email_no_text_between_at_and_domain" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_email_ok" time="0.006" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_name_empty_string" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_name_no_blank_space" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_name_ok" time="0.006" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_validity_ok_bottom_limit" time="0.005" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_request_access_code_validity_ok_top_limit" time="0.005" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_request_access_code_tests.MyTestCase" name="test_rquest_access_code_dni_letra_minuscula" time="0.005" timestamp="2021-04-13T19:19:38"/>
+</testsuite>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_open_door_tests.MyTestCase-20210413191937" tests="6" file="test_open_door_tests.py" time="0.017" timestamp="2021-04-13T19:19:38" failures="0" errors="0" skipped="0">
+	<testcase classname="test_open_door_tests.MyTestCase" name="test_open_door_good" time="0.009" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_open_door_tests.MyTestCase" name="test_open_door_good_exp_0" time="0.006" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_open_door_tests.MyTestCase" name="test_open_door_not_in_store" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_open_door_tests.MyTestCase" name="test_open_door_not_string" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_open_door_tests.MyTestCase" name="test_open_door_wrong_exp" time="0.001" timestamp="2021-04-13T19:19:38"/>
+	<testcase classname="test_open_door_tests.MyTestCase" name="test_open_door_wrong_lenth" time="0.000" timestamp="2021-04-13T19:19:38"/>
+</testsuite>
