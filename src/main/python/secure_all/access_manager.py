@@ -166,19 +166,13 @@ class AccessManager:
                     for index in datos_en_base:
                         lista.append(datos_en_base[index])
                     my_request = AccessRequest(lista)
-                    if isinstance(datos_en_base["_AccessRequest__email_address"], list):
-                        if len(datos["NotificationMail"]) == len(datos_en_base["_AccessRequest__email_address"]):
-                            if datos["NotificationMail"] == datos_en_base["_AccessRequest__email_address"]:
-                                if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
-                                    if datos["AccessCode"] == my_request.access_code:
-                                        return datos_en_base
-                                    raise AccessManagementException("ERROR, AccesCode incorrecto")
-                    elif datos["NotificationMail"][0] == datos_en_base["_AccessRequest__email_address"]:
-                        if len(datos["NotificationMail"]) == 1:
-                            if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
-                                if datos["AccessCode"] == my_request.access_code:
+                    if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
+                        print(datos["AccessCode"], "  =?  ", my_request.access_code)
+                        if datos["AccessCode"] == my_request.access_code:
+                            for ecorreo in datos["NotificationMail"]:
+                                if ecorreo == datos_en_base["_AccessRequest__email_address"]:
                                     return datos_en_base
-                                raise AccessManagementException("ERROR, AccesCode incorrecto")
+                        raise AccessManagementException("ERROR, AccesCode incorrecto")
                 raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
 
     def get_access_key(self, input_file):
