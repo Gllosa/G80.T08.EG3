@@ -91,8 +91,7 @@ class AccessManager:
         req = AccessRequest(datos_persona)
         if not self.request_in_json(req):
             self.save_request(req)
-            return req.access_code
-        raise AccessManagementException("Solicitud ya realizada")
+        return req.access_code
 
     @staticmethod
     def save_request(solicitud):
@@ -155,31 +154,34 @@ class AccessManager:
          correspondientes a la clave de acceso
          si existen y si el codigo de acceso es correcto"""
         self.check_json_request(input_file)
-        with open(input_file) as solicitud:
-            datos = json.load(solicitud)
-            path = pathlib.Path(__file__).parent.parent.parent.parent
-            path = path.joinpath("almacen/solicitudes.json")
-            with open(path) as solicitudes:
-                for sol in solicitudes:
-                    datos_en_base = json.loads(sol)
-                    lista = []
-                    for index in datos_en_base:
-                        lista.append(datos_en_base[index])
-                    my_request = AccessRequest(lista)
-                    if isinstance(datos_en_base["_AccessRequest__email_address"], list):
-                        if len(datos["NotificationMail"]) == len(datos_en_base["_AccessRequest__email_address"]):
-                            if datos["NotificationMail"] == datos_en_base["_AccessRequest__email_address"]:
+        try:
+            with open(input_file) as solicitud:
+                datos = json.load(solicitud)
+                path = pathlib.Path(__file__).parent.parent.parent.parent
+                path = path.joinpath("almacen/solicitudes.json")
+                with open(path) as solicitudes:
+                    for sol in solicitudes:
+                        datos_en_base = json.loads(sol)
+                        lista = []
+                        for index in datos_en_base:
+                            lista.append(datos_en_base[index])
+                        my_request = AccessRequest(lista)
+                        if isinstance(datos_en_base["_AccessRequest__email_address"], list):
+                            if len(datos["NotificationMail"]) == len(datos_en_base["_AccessRequest__email_address"]):
+                                if datos["NotificationMail"] == datos_en_base["_AccessRequest__email_address"]:
+                                    if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
+                                        if datos["AccessCode"] == my_request.access_code:
+                                            return datos_en_base
+                                        raise AccessManagementException("ERROR, AccesCode incorrecto")
+                        elif datos["NotificationMail"][0] == datos_en_base["_AccessRequest__email_address"]:
+                            if len(datos["NotificationMail"]) == 1:
                                 if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
                                     if datos["AccessCode"] == my_request.access_code:
                                         return datos_en_base
                                     raise AccessManagementException("ERROR, AccesCode incorrecto")
-                    elif datos["NotificationMail"][0] == datos_en_base["_AccessRequest__email_address"]:
-                        if len(datos["NotificationMail"]) == 1:
-                            if datos["DNI"] == datos_en_base["_AccessRequest__id_document"]:
-                                if datos["AccessCode"] == my_request.access_code:
-                                    return datos_en_base
-                                raise AccessManagementException("ERROR, AccesCode incorrecto")
-                raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
+        except FileNotFoundError:
+            raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
+        raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
 
     def get_access_key(self, input_file):
         """segun la peticion de acceso devuelve
