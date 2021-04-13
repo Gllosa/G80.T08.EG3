@@ -13,9 +13,9 @@ class AccessRequest:
         self.__visitor_type = datosPersona[2]
         self.__email_address = datosPersona[3]
         self.__validity = datosPersona[4]
-        # justnow = datetime.utcnow()
-        # self.__time_stamp = datetime.timestamp(justnow)
-        self.__time_stamp = 0
+        justnow = datetime.utcnow()
+        self.__time_stamp = datetime.timestamp(justnow)
+        # self.__time_stamp = 0
 
     def __str__(self):
         return "AccessRequest:" + json.dumps(self.__dict__)
