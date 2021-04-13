@@ -2,11 +2,10 @@
 
 import json
 import pathlib
-import os
+from datetime import datetime
 import secure_all
 
 from secure_all import AccessRequest, AccessManagementException
-from datetime import datetime
 
 
 class AccessManager:
@@ -147,7 +146,7 @@ class AccessManager:
                 for email in emails:
                     self.check_email(email)
         except ValueError:
-            raise AccessManagementException("ERROR DE SINTAXIS EN ARCHIVO")
+            raise AccessManagementException("ERROR DE SINTAXIS EN ARCHIVO") from None
 
     def get_solicitud_from_acces_code(self, input_file):
         """return los datos en la base de datos de solicitudes
@@ -180,7 +179,7 @@ class AccessManager:
                                         return datos_en_base
                                     raise AccessManagementException("ERROR, AccesCode incorrecto")
         except FileNotFoundError:
-            raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
+            raise AccessManagementException("ERROR, la solicitud no esta en la base de datos") from None
         raise AccessManagementException("ERROR, la solicitud no esta en la base de datos")
 
     def get_access_key(self, input_file):
@@ -203,6 +202,8 @@ class AccessManager:
 
     @staticmethod
     def open_door(key):
+        """Devuelve True si la clave recibida se encuentra en el almacen de solicitudes.
+        Ademas añade esta clave junto con su 'Time Stamp' al fichero almacen/llavesValidas.json"""
         if not isinstance(key, str) or len(key) != 64:
             raise AccessManagementException("Clave no encontrada o expirada")
 
