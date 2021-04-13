@@ -1,0 +1,43 @@
+WARNING: '.' not a valid package name; please use only .-separated package names in setup.py
+running clean
+'build\lib' does not exist -- can't clean it
+'build\bdist.win-amd64' does not exist -- can't clean it
+'build\scripts-3.9' does not exist -- can't clean it
+running sdist
+running egg_info
+creating secure_all.egg-info
+writing secure_all.egg-info\PKG-INFO
+writing dependency_links to secure_all.egg-info\dependency_links.txt
+writing namespace_packages to secure_all.egg-info\namespace_packages.txt
+writing top-level names to secure_all.egg-info\top_level.txt
+writing manifest file 'secure_all.egg-info\SOURCES.txt'
+reading manifest file 'secure_all.egg-info\SOURCES.txt'
+writing manifest file 'secure_all.egg-info\SOURCES.txt'
+warning: sdist: standard file not found: should have one of README, README.rst, README.txt, README.md
+
+running check
+warning: Check: missing required meta-data: url
+
+warning: Check: missing meta-data: either (author and author_email) or (maintainer and maintainer_email) should be supplied
+
+creating secure_all-1.0.dev0
+creating secure_all-1.0.dev0\secure_all
+creating secure_all-1.0.dev0\secure_all.egg-info
+copying files to secure_all-1.0.dev0...
+copying __init__.py -> secure_all-1.0.dev0
+copying setup.py -> secure_all-1.0.dev0
+copying secure_all\__init__.py -> secure_all-1.0.dev0\secure_all
+copying secure_all\access_key.py -> secure_all-1.0.dev0\secure_all
+copying secure_all\access_management_exception.py -> secure_all-1.0.dev0\secure_all
+copying secure_all\access_manager.py -> secure_all-1.0.dev0\secure_all
+copying secure_all\access_request.py -> secure_all-1.0.dev0\secure_all
+copying secure_all.egg-info\PKG-INFO -> secure_all-1.0.dev0\secure_all.egg-info
+copying secure_all.egg-info\SOURCES.txt -> secure_all-1.0.dev0\secure_all.egg-info
+copying secure_all.egg-info\dependency_links.txt -> secure_all-1.0.dev0\secure_all.egg-info
+copying secure_all.egg-info\namespace_packages.txt -> secure_all-1.0.dev0\secure_all.egg-info
+copying secure_all.egg-info\top_level.txt -> secure_all-1.0.dev0\secure_all.egg-info
+copying secure_all.egg-info\zip-safe -> secure_all-1.0.dev0\secure_all.egg-info
+Writing secure_all-1.0.dev0\setup.cfg
+creating dist
+Creating tar archive
+removing 'secure_all-1.0.dev0' (and everything under it)
