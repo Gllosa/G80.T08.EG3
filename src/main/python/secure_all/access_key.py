@@ -14,7 +14,7 @@ class AccessKey:
         self.__notification_emails = notification_emails
         justnow = datetime.utcnow()
         self.__issued_at = datetime.timestamp(justnow)
-        # self.__issued_at =
+        # self.__issued_at = 0
 
         if validity == 0:
             self.__expiration_date = 0
